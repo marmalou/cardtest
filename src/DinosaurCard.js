@@ -16,15 +16,21 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Icon from '@material-ui/core/Icon';
+// import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 
 const useStyles = makeStyles(theme => ({
   card: {
     maxWidth: 345,
+    margin: "20px"
   },
   media: {
-    height: 0,
-    paddingTop: '56.25%', // 16:9
+    // height: 0,
+    // paddingTop: '56.25%', // 16:9
+    height: '276px',
+    width: '100%',
+    objectFit: 'contain'
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -38,12 +44,23 @@ const useStyles = makeStyles(theme => ({
   },
   avatar: {
     backgroundColor: red[500],
-  },
-}));
+    },
+      root: {
+        '& > span': {
+          margin: theme.spacing(2),
+        },
+      },
+      iconHover: {
+        '&:hover': {
+          color: red[800],
+        },
+      },
+    }));
 
 export default function DinosaurCard(props) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
+
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -64,12 +81,15 @@ export default function DinosaurCard(props) {
       <CardMedia
         className={classes.media}
         image={props.image}
-
+        component="img"
       />
    <CardContent>
         <Typography variant="body2" color="textSecondary" component="p" >{props.content}
 </Typography>
     </CardContent>
+    <div className={classes.root}>
+      <Icon>add_circle</Icon>
+    </div>
     <CardActions disableSpacing>
       <IconButton
            className={clsx(classes.expand, {
@@ -88,6 +108,7 @@ export default function DinosaurCard(props) {
            <Typography paragraph>
             {props.facts}
           </Typography>
+
         </CardContent>
       </Collapse>
     </Card>
