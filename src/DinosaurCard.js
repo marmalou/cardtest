@@ -12,11 +12,24 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
-import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Icon from '@material-ui/core/Icon';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
+import { grey } from '@material-ui/core/colors';
+
+
+import { withStyles } from '@material-ui/core/styles';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import DraftsIcon from '@material-ui/icons/Drafts';
+import SendIcon from '@material-ui/icons/Send';
 // import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 
@@ -55,16 +68,86 @@ const useStyles = makeStyles(theme => ({
           color: red[800],
         },
       },
-    }));
+      dropdown: {
+    position: 'relative',
+  },
+  paper: {
+    position: 'absolute',
+    top: 36,
+    right: 0,
+    left: 0,
+  },
+  fake: {
+    backgroundColor: grey[200],
+    height: theme.spacing(1),
+    margin: theme.spacing(2),
+    // Selects every two elements among any group of siblings.
+    '&:nth-child(2n)': {
+      marginRight: theme.spacing(3),
+    },
+  },
+}));
 
 export default function DinosaurCard(props) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handleClickDropDown = event => {
+      setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+      setAnchorEl(null);
+    };
 
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+  const [open, setOpen] = React.useState(false);
+
+
+  const handleClick = () => {
+    setOpen(prev => !prev);
+  };
+
+  const handleClickAway = () => {
+    setOpen(false);
+  };
+
+  const fake = <div className={classes.fake} />;
+
+  const StyledMenu = withStyles({
+    paper: {
+      border: '1px solid #d3d4d5',
+    }
+  })(props => (
+    <Menu
+    elevation = {0}
+    getContentAnchorEl={null}
+    anchorOrigin={{
+      vertical: 'top',
+      horizontal: 'center',
+    }}
+  {...props}
+  />
+));
+
+const StyledMenuItem = withStyles(theme => ({
+  root: {
+    '&:focus': {
+      backgroundColor: theme.palette.primary.main,
+      '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
+        color: theme.palette.common.white,
+      },
+    },
+  },
+}))(MenuItem);
+
+
+
+
 
   return (
     <Card className={classes.card}>
@@ -90,6 +173,37 @@ export default function DinosaurCard(props) {
     <div className={classes.root}>
       <Icon>add_circle</Icon>
     </div>
+
+<div>
+     <Button
+       aria-controls="customized-menu"
+       aria-haspopup="true"
+       variant="contained"
+       color="primary"
+       onClick={handleClickDropDown}
+     >
+       Paddocks
+     </Button>
+     <StyledMenu
+       id="customized-menu"
+       anchorEl={anchorEl}
+       keepMounted
+       open={Boolean(anchorEl)}
+       onClose={handleClose}
+     >
+       <StyledMenuItem>
+         <ListItemText primary="Paddock 1" />
+       </StyledMenuItem>
+       <StyledMenuItem>
+         <ListItemText primary="Paddock 2" />
+       </StyledMenuItem>
+       <StyledMenuItem>
+         <ListItemText primary="Paddock 3" />
+       </StyledMenuItem>
+     </StyledMenu>
+   </div>
+
+
     <CardActions disableSpacing>
       <IconButton
            className={clsx(classes.expand, {
