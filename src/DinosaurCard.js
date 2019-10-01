@@ -17,9 +17,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Icon from '@material-ui/core/Icon';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
-import { grey } from '@material-ui/core/colors';
+
 
 
 import { withStyles } from '@material-ui/core/styles';
@@ -29,8 +27,10 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
-import SendIcon from '@material-ui/icons/Send';
-// import AddCircleIcon from '@material-ui/icons/AddCircle';
+import SendIcon from '@material-ui/icons/Send'
+import Button from '@material-ui/core/Button';
+
+
 
 
 const useStyles = makeStyles(theme => ({
@@ -39,8 +39,6 @@ const useStyles = makeStyles(theme => ({
     margin: "20px"
   },
   media: {
-    // height: 0,
-    // paddingTop: '56.25%', // 16:9
     height: '276px',
     width: '100%',
     objectFit: 'contain'
@@ -78,10 +76,9 @@ const useStyles = makeStyles(theme => ({
     left: 0,
   },
   fake: {
-    backgroundColor: grey[200],
+    backgroundColor: red[500],
     height: theme.spacing(1),
     margin: theme.spacing(2),
-    // Selects every two elements among any group of siblings.
     '&:nth-child(2n)': {
       marginRight: theme.spacing(3),
     },
@@ -105,6 +102,7 @@ export default function DinosaurCard(props) {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
   const [open, setOpen] = React.useState(false);
 
 
@@ -145,14 +143,14 @@ const StyledMenuItem = withStyles(theme => ({
   },
 }))(MenuItem);
 
+function playSound() {
+  let clip = new Audio('http://wavcentral.com/sounds/movies/jurassic/jurass01.mp3')
+  clip.play()
+}
 
-
-
-
-  return (
+return (
     <Card className={classes.card}>
       <CardHeader
-
         avatar=
           <Avatar aria-label="DinosaurCard" className={classes.avatar}>
            {props.avatar}
@@ -168,14 +166,15 @@ const StyledMenuItem = withStyles(theme => ({
       />
    <CardContent>
         <Typography variant="body2" color="textSecondary" component="p" >{props.content}
-</Typography>
+        </Typography>
     </CardContent>
     <div className={classes.root}>
       <Icon>add_circle</Icon>
     </div>
 
-<div>
-     <Button
+    <button value="sound" onClick={playSound}>AH AH AH</button>
+
+    <Button
        aria-controls="customized-menu"
        aria-haspopup="true"
        variant="contained"
@@ -201,10 +200,9 @@ const StyledMenuItem = withStyles(theme => ({
          <ListItemText primary="Paddock 3" />
        </StyledMenuItem>
      </StyledMenu>
-   </div>
 
 
-    <CardActions disableSpacing>
+  <CardActions disableSpacing>
       <IconButton
            className={clsx(classes.expand, {
              [classes.expandOpen]: expanded,
@@ -215,16 +213,16 @@ const StyledMenuItem = withStyles(theme => ({
          >
            <ExpandMoreIcon />
          </IconButton>
-       </CardActions>
+       </ CardActions>
        <Collapse in={expanded} timeout="auto" unmountOnExit>
          <CardContent>
            <Typography paragraph>Facts:</Typography>
            <Typography paragraph>
             {props.facts}
           </Typography>
-
         </CardContent>
       </Collapse>
     </Card>
   );
+
 }
